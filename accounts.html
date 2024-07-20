@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Accounts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .account-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .account-card {
+            background: white;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            text-align: center;
+            position: relative;
+        }
+        .account-card input {
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Select Accounts to Delete</h2>
+    <div class="account-container">
+        <div class="account-card">
+            <h3>Account 1</h3>
+            <p>Balance: $1000</p>
+            <input type="checkbox" class="delete-checkbox" value="1">
+        </div>
+        <div class="account-card">
+            <h3>Account 2</h3>
+            <p>Balance: $2000</p>
+            <input type="checkbox" class="delete-checkbox" value="2">
+        </div>
+        <div class="account-card">
+            <h3>Account 3</h3>
+            <p>Balance: $3000</p>
+            <input type="checkbox" class="delete-checkbox" value="3">
+        </div>
+        <div class="account-card">
+            <h3>Account 4</h3>
+            <p>Balance: $4000</p>
+            <input type="checkbox" class="delete-checkbox" value="4">
+        </div>
+        <div class="account-card">
+            <h3>Account 5</h3>
+            <p>Balance: $5000</p>
+            <input type="checkbox" class="delete-checkbox" value="5">
+        </div>
+    </div>
+    <button onclick="goToMergePage()">Next</button>
+
+    <script>
+        function goToMergePage() {
+            const selectedAccounts = document.querySelectorAll('.delete-checkbox:checked');
+            if (selectedAccounts.length === 0 || selectedAccounts.length > 4) {
+                alert('Please select 1 to 4 accounts to delete.');
+                return;
+            }
+
+            const selectedValues = Array.from(selectedAccounts).map(cb => cb.value);
+            localStorage.setItem('accountsToDelete', JSON.stringify(selectedValues));
+            window.location.href = 'merge.html';
+        }
+    </script>
+</body>
+</html>

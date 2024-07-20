@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge Account</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .account-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .account-card {
+            background: white;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            text-align: center;
+            position: relative;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Merge into Account</h2>
+    <div class="account-container" id="accounts-container">
+        <!-- Accounts will be dynamically populated here -->
+    </div>
+    <button onclick="mergeAccounts()">Submit</button>
+
+    <script>
+        const accounts = [
+            { id: 1, balance: 1000 },
+            { id: 2, balance: 2000 },
+            { id: 3, balance: 3000 },
+            { id: 4, balance: 4000 },
+            { id: 5, balance: 5000 }
+        ];
+
+        const accountsToDelete = JSON.parse(localStorage.getItem('accountsToDelete'));
+
+        function populateAccounts() {
+            const container = document.getElementById('accounts-container');
+            accounts.forEach(account => {
+                if (!accountsToDelete.includes(account.id.toString())) {
+                    const accountCard = document.createElement('div');
+                    accountCard.className = 'account-card';
+                    accountCard.innerHTML = `
+                        <h3>Account ${account.id}</h3>
+                        <p>Balance: $${account.balance}</p>
+                        <input type="radio" name="mergeAccount" value="${account.id}">
+                    `;
+                    container.appendChild(accountCard);
+                }
+            });
+        }
+
+        function mergeAccounts() {
+            const selectedAccount = document.querySelector('input[name="mergeAccount"]:checked');
+            if (!selectedAccount) {
+                alert('Please select an account to merge into.');
+                return;
+            }
+            const selectedAccountId = parseInt(selectedAccount.value, 10);
+
+            let totalBalanceToMerge = 0;
+            accounts.forEach(account => {
+                if (accountsToDelete.includes(account.id.toString())) {
+                    totalBalanceToMerge += account.balance;
+                }
+            });
+
+            accounts.forEach(account => {
+                if (account.id === selectedAccountId) {
+                    account.balance += totalBalanceToMerge;
+                }
+            });
+
+            const updatedAccounts = accounts.filter(account => !accountsToDelete.includes(account.id.toString()));
+            localStorage.setItem('updatedAccounts', JSON.stringify(updatedAccounts));
+
+            window.location.href = 'result.html';
+        }
+
+        populateAccounts();
+    </script>
+</body>
+</html>
