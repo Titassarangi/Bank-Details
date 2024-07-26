@@ -1,1 +1,1 @@
-A project which consists of a signing in page, it shows your bank accounts with the amount of money, then you can remove an account and merge the money with another account.
+The Bank Details project includes a signing-in page where users can view their bank accounts and the corresponding balances. Users have the functionality to remove an account and merge the balance with another account. The project is built using HTML for the frontend.
